@@ -15,11 +15,7 @@ kickstart_package_install() {
     kickstart_puts "Package %s is already installed ..." "$1"
   else
     kickstart_puts "Installing %s ..." "$1"
-    if [ -v sudo ]; then
-      echo $sudo | sudo -S apt-get -qq install -y "$1" 1> /dev/null
-    else
-      apt-get -qq install -y "$1"
-    fi
+    apt-get -qq install -y "$1"
   fi
 }
 
@@ -109,13 +105,6 @@ kickstart_parse_params() {
         fi
         ;;
 
-      (--with-sudo)
-        if [[ -n "${1:-}" ]]; then
-          sudo="$1"
-          shift
-	fi
-	;;
-
       (--no-update)
         noupdate=1
         ;;
@@ -139,9 +128,9 @@ kickstart_install_packages() {
   kickstart_package_install 'vim'
   kickstart_package_install 'apt-utils'
   kickstart_package_install 'exuberant-ctags'
-  # kickstart_package_install 'silversearcher-ag'
-  # kickstart_package_install 'qt'
-  # kickstart_package_install 'openssl'
+  kickstart_package_install 'silversearcher-ag'
+  kickstart_package_install 'qt'
+  kickstart_package_install 'openssl'
 }
 
 kickstart_install_gems() {
